@@ -18,20 +18,15 @@ public class ExamTypeDto {
     @Null
     private String examTypeId;
 
-    @NotNull
     private String typeName;
 
-    @NotNull
     private Integer examDuration;
 
-    @NotNull
     private Boolean isOnePiece;
 
-    @NotNull
     private Boolean isPreparatoryExam;
 
-    @NotNull
-    private List<ExamFieldDto> examFields;
+    private List<ExamFieldDto> examFieldsDto;
 
     @Null
     private Timestamp createdAt;

@@ -13,16 +13,19 @@ import java.util.UUID;
 public interface ExamMapper {
 
     @Mappings({
+            @Mapping(target = "examType", source = "examTypeDto"),
             @Mapping(target = "id", expression = "java( UUID.fromString(examDto.getExamId()) )")
     })
     Exam examDtoToExam(ExamDto examDto);
 
     @Mappings({
+            @Mapping(target = "examTypeDto", source = "examType"),
             @Mapping(target = "examId", expression = "java( exam.getId().toString() )")
     })
     ExamDto examToExamDto(Exam exam);
 
     @Mappings({
+            @Mapping(target = "examTypeDto", source = "examType"),
             @Mapping(target = "examId", expression = "java( exam.getId().toString() )")
     })
     List<ExamDto> examToExamDto(List<Exam> exam);

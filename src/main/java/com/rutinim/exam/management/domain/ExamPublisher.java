@@ -10,13 +10,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
-@Entity(name = "exam")
+@Entity(name = "exam_publisher")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Exam {
+public class ExamPublisher {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -25,11 +26,21 @@ public class Exam {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Type(type = "org.hibernate.type.UUIDCharType")
-    @Column(updatable = false, nullable = false)
+    @Column(updatable = false, insertable = false)
     private UUID id;
 
-    @Column(name = "exam_name")
-    private String examName;
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    @Column(name = "publisher_id")
+    private UUID publisherId;
+
+    @Column(name = "publisher_name")
+    private String publisherName;
+
+    @Column(name = "number_of_series")
+    private Integer numberOfSeries;
+
+    @Column(name = "exam_image")
+    private String examImage;
 
     @CreationTimestamp
     private Timestamp createdAt;
@@ -38,7 +49,10 @@ public class Exam {
     private Timestamp lastModifitedDate;
 
     @ManyToOne
-    @JoinColumn(name = "exam_type_id", referencedColumnName = "id")
-    private ExamType examType;
+    @JoinColumn(name = "exam_id", referencedColumnName = "id")
+    private Exam exam;
+
+    @OneToMany(mappedBy = "examPublisher", cascade = CascadeType.ALL)
+    private List<PublisherSeries> publisherSeries;
 
 }

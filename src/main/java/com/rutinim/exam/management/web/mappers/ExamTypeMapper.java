@@ -12,11 +12,13 @@ import java.util.UUID;
 public interface ExamTypeMapper {
 
     @Mappings(
+            @Mapping(target = "examFields", source = "examFieldsDto"),
             @Mapping(target = "id", expression = "java( UUID.fromString(examTypeDto.getExamTypeId()) )")
     )
     ExamType examTypeDtoToExamType(ExamTypeDto examTypeDto);
 
     @Mappings(
+            @Mapping(target = "examFieldsDto", source = "examFields"),
             @Mapping(target = "examTypeId", expression = "java( examType.getId().toString() )")
     )
     ExamTypeDto examTypeToExamTypeDto(ExamType examType);

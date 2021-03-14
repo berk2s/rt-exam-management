@@ -18,16 +18,12 @@ public class ExamFieldDto {
     @Null
     private String examFieldId;
 
-    @NotNull
     private String fieldName;
 
-    @NotNull
     private Integer numberOfQuestions;
 
-    @Null
     private Timestamp createdAt;
 
-    @Null
     private Timestamp lastModifiedDate;
 
 }

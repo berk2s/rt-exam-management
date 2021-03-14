@@ -30,7 +30,7 @@ public class ExamServiceImpl implements ExamService {
         Optional<Exam> optionalExam = examRepository.findById(examId);
 
         if(optionalExam.isEmpty())
-            throw new ExamNotFoundException("Student can not found by id");
+            throw new ExamNotFoundException("Exam can not found by id");
 
         return examMapper.examToExamDto(optionalExam.get());
     }

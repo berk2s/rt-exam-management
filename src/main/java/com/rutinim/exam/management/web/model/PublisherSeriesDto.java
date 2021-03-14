@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import java.sql.Timestamp;
+import java.util.UUID;
 
 @Data
 @Getter
@@ -12,13 +12,15 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExamDto {
+public class PublisherSeriesDto {
 
     @Null
-    private String examId;
+    private String publisherSeriesId;
 
-    private String examName;
+    private String sequenceName;
 
-    private ExamTypeDto examTypeDto;
+    private Integer numberOfSequence;
+
+    private UUID examPublisherId;
 
 }

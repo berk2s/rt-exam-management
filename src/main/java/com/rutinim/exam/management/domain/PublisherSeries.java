@@ -12,11 +12,11 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-@Entity(name = "exam")
+@Entity(name = "publisher_series")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Exam {
+public class PublisherSeries {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -25,11 +25,14 @@ public class Exam {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Type(type = "org.hibernate.type.UUIDCharType")
-    @Column(updatable = false, nullable = false)
+    @Column(insertable = false, updatable = false)
     private UUID id;
 
-    @Column(name = "exam_name")
-    private String examName;
+    @Column(name = "sequence_name")
+    private String sequenceName;
+
+    @Column(name = "number_of_sequence")
+    private Integer numberOfSequence;
 
     @CreationTimestamp
     private Timestamp createdAt;
@@ -38,7 +41,7 @@ public class Exam {
     private Timestamp lastModifitedDate;
 
     @ManyToOne
-    @JoinColumn(name = "exam_type_id", referencedColumnName = "id")
-    private ExamType examType;
+    @JoinColumn(name = "exam_publisher_id", referencedColumnName = "id")
+    private ExamPublisher examPublisher;
 
 }
