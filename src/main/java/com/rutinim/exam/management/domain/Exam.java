@@ -31,9 +31,6 @@ public class Exam {
     @Column(name = "exam_name")
     private String examName;
 
-    @Column(name = "rating")
-    private Double rating;
-
     @CreationTimestamp
     private Timestamp createdAt;
 

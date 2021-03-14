@@ -3,10 +3,13 @@ package com.rutinim.exam.management.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,5 +43,11 @@ public class ExamType {
 
     @OneToMany(mappedBy = "examType", cascade = CascadeType.ALL)
     private List<ExamField> examFields;
+
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    @UpdateTimestamp
+    private Timestamp lastModifitedDate;
 
 }
