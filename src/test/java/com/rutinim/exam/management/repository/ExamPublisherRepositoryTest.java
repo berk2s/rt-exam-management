@@ -40,7 +40,7 @@ class ExamPublisherRepositoryTest {
 
         assertThat(optionalExamPublisher.get())
                 .isEqualTo(examPublisher)
-                .isNotEqualTo(null);
+                .isNotNull();
     }
 
 
