@@ -40,7 +40,7 @@ public class PublisherSeries {
     @UpdateTimestamp
     private Timestamp lastModifitedDate;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "exam_publisher_id", referencedColumnName = "id")
     private ExamPublisher examPublisher;
 
