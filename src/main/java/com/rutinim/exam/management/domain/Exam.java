@@ -1,8 +1,6 @@
 package com.rutinim.exam.management.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -16,6 +14,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Exam {
 
     @Id
@@ -31,9 +31,6 @@ public class Exam {
     @Column(name = "exam_name")
     private String examName;
 
-    @Column(name = "rating")
-    private Double rating;
-
     @CreationTimestamp
     private Timestamp createdAt;
 
@@ -41,7 +38,7 @@ public class Exam {
     private Timestamp lastModifitedDate;
 
     @ManyToOne
-    @JoinColumn(name = "examTypeId", referencedColumnName = "id")
+    @JoinColumn(name = "exam_type_id", referencedColumnName = "id")
     private ExamType examType;
 
 }

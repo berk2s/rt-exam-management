@@ -8,15 +8,16 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
-@Entity(name = "exam_field")
+@Entity(name = "exam_publisher")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExamField {
+public class ExamPublisher {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -25,22 +26,33 @@ public class ExamField {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Type(type = "org.hibernate.type.UUIDCharType")
-    @Column(insertable = false, updatable = false)
+    @Column(updatable = false, insertable = false)
     private UUID id;
 
-    @Column(name = "field_name")
-    private String fieldName;
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    @Column(name = "publisher_id")
+    private UUID publisherId;
 
-    @Column(name = "number_of_questions")
-    private Integer numberOfQuestions;
+    @Column(name = "publisher_name")
+    private String publisherName;
 
-    @ManyToOne
-    @JoinColumn(name = "exam_id", referencedColumnName = "id", nullable = false)
-    private ExamType examType;
+    @Column(name = "number_of_series")
+    private Integer numberOfSeries;
+
+    @Column(name = "exam_image")
+    private String examImage;
 
     @CreationTimestamp
     private Timestamp createdAt;
 
     @UpdateTimestamp
     private Timestamp lastModifitedDate;
+
+    @ManyToOne
+    @JoinColumn(name = "exam_id", referencedColumnName = "id")
+    private Exam exam;
+
+    @OneToMany(mappedBy = "examPublisher", cascade = CascadeType.ALL)
+    private List<PublisherSeries> publisherSeries;
+
 }

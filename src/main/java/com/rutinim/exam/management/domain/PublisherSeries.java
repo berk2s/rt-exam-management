@@ -10,13 +10,13 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-@Entity(name = "exam_field")
+@Entity(name = "publisher_series")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExamField {
+public class PublisherSeries {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -28,19 +28,20 @@ public class ExamField {
     @Column(insertable = false, updatable = false)
     private UUID id;
 
-    @Column(name = "field_name")
-    private String fieldName;
+    @Column(name = "sequence_name")
+    private String sequenceName;
 
-    @Column(name = "number_of_questions")
-    private Integer numberOfQuestions;
-
-    @ManyToOne
-    @JoinColumn(name = "exam_id", referencedColumnName = "id", nullable = false)
-    private ExamType examType;
+    @Column(name = "number_of_sequence")
+    private Integer numberOfSequence;
 
     @CreationTimestamp
     private Timestamp createdAt;
 
     @UpdateTimestamp
     private Timestamp lastModifitedDate;
+
+    @ManyToOne
+    @JoinColumn(name = "exam_publisher_id", referencedColumnName = "id")
+    private ExamPublisher examPublisher;
+
 }
