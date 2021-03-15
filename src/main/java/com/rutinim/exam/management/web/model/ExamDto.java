@@ -14,7 +14,6 @@ import java.sql.Timestamp;
 @Builder
 public class ExamDto {
 
-    @Null
     private String examId;
 
     private String examName;

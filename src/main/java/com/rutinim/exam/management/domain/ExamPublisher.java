@@ -52,7 +52,17 @@ public class ExamPublisher {
     @JoinColumn(name = "exam_id", referencedColumnName = "id")
     private Exam exam;
 
+    @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "examPublisher", cascade = CascadeType.ALL)
     private List<PublisherSeries> publisherSeries;
+
+    public void setPublisherSeries(List<PublisherSeries> publisherSeries) {
+        this.publisherSeries = publisherSeries;
+    }
+
+    public void addPublisherSeries(PublisherSeries publisherSeries) {
+        publisherSeries.setExamPublisher(this);
+        this.publisherSeries.add(publisherSeries);
+    }
 
 }
