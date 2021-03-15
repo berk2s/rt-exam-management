@@ -73,4 +73,15 @@ public class ExamPublisherServiceImpl implements ExamPublisherService {
         ExamPublisher examPublisher = examPublisherRepository.getOne(examPublisherId);
         examPublisherRepository.delete(examPublisher);
     }
+
+    @Override
+    public void deletePublisherSeries(ExamPublisherDto examPublisherDto) {
+        ExamPublisher tempExamPublisher = examPublisherMapper.examPublisherDtoToExamPublisher(examPublisherDto);
+
+        ExamPublisher examPublisher = examPublisherRepository.getOne(tempExamPublisher.getId());
+
+        examPublisher.getPublisherSeries().removeIf(p -> tempExamPublisher.getPublisherSeries().stream().anyMatch(f -> f.getId().equals(p.getId())));
+
+        examPublisherRepository.save(examPublisher);
+    }
 }

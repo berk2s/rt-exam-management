@@ -20,4 +20,6 @@ public interface ExamPublisherService {
 
     void deleteExamPublisher(UUID examPublisherId);
 
+    void deletePublisherSeries(ExamPublisherDto examPublisherDto);
+
 }
