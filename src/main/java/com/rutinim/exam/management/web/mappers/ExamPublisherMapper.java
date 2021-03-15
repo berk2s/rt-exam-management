@@ -21,16 +21,16 @@ public interface ExamPublisherMapper {
     ExamPublisher examPublisherDtoToExamPublisher(ExamPublisherDto examPublisherDto);
 
     @Mappings({
-            @Mapping(target = "examPublisherId", expression = "java( examPublisherDto.getId().toString() )"),
-            @Mapping(target = "publisherId", expression = "java( examPublisherDto.getPublisherId().toString() )"),
+            @Mapping(target = "examPublisherId", expression = "java( examPublisher.getId().toString() )"),
+            @Mapping(target = "publisherId", expression = "java( examPublisher.getPublisherId().toString() )"),
             @Mapping(target = "examDto", source = "exam"),
             @Mapping(target = "publisherSeriesDto", source = "publisherSeries"),
     })
     ExamPublisherDto examPublisherToExamPublisherDto(ExamPublisher examPublisher);
 
     @Mappings({
-            @Mapping(target = "examPublisherId", expression = "java( examPublisherDto.getId().toString() )"),
-            @Mapping(target = "publisherId", expression = "java( examPublisherDto.getPublisherId().toString() )"),
+            @Mapping(target = "examPublisherId", expression = "java( examPublisher.getId().toString() )"),
+            @Mapping(target = "publisherId", expression = "java( examPublisher.getPublisherId().toString() )"),
             @Mapping(target = "examDto", source = "exam"),
             @Mapping(target = "publisherSeriesDto", source = "publisherSeries"),
     })

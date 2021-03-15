@@ -28,10 +28,5 @@ public class ExamTypeDto {
 
     private List<ExamFieldDto> examFieldsDto;
 
-    @Null
-    private Timestamp createdAt;
-
-    @Null
-    private Timestamp lastModifiedDate;
 
 }
