@@ -33,7 +33,7 @@ class ExamPublisherRepositoryTest {
 
     }
 
-    @DisplayName("** Test Exam Publisher Should Successfully saved **")
+    @DisplayName("Test Exam Publisher Should Successfully saved")
     @Test
     void testExamPublisherSuccessfullySaved() {
         Optional<ExamPublisher> optionalExamPublisher = examPublisherRepository.findById(examPublisher.getId());
@@ -45,7 +45,7 @@ class ExamPublisherRepositoryTest {
 
 
     @Nested
-    @DisplayName("** Test Exam Publsihers Belongs To Exam")
+    @DisplayName("** Test Exam Publsihers Belongs To Exam **")
     class TestExamPublisherBelongsToExam {
 
         Exam exam;
@@ -63,7 +63,7 @@ class ExamPublisherRepositoryTest {
 
         }
 
-        @DisplayName("** Exam Publisher Should Matches Belongs To Exam **")
+        @DisplayName("Exam Publisher Should Matches Belongs To Exam")
         @Test
         void examPublisherShouldMatchesBelongsToExam() {
             Optional<ExamPublisher> optionalExamPublisher = examPublisherRepository.findById(examPublisher.getId());
@@ -99,14 +99,14 @@ class ExamPublisherRepositoryTest {
 
         }
 
-        @DisplayName("** Test Publisher Series Matches Exam Publsiher")
+        @DisplayName("Test Publisher Series Matches Exam Publsiher")
         @Test
         void testPublisherSeriesMatchesPublisher() {
             Optional<ExamPublisher> optionalExamPublisher = examPublisherRepository.findById(examPublisher.getId());
 
             assertThat(optionalExamPublisher.get().getPublisherSeries())
                     .isEqualTo(publisherSeriesList);
-            
+
         }
 
     }
