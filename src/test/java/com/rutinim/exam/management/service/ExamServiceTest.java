@@ -22,6 +22,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -78,6 +79,47 @@ class ExamServiceTest {
                 .isNotNull();
 
         verify(examRepository).findAll();
+    }
+
+    @DisplayName("Should Save Exam Successfully")
+    @Test
+    void testShouldSaveExamSuccessfully() {
+
+        examService.saveExam(examDto);
+
+        verify(examRepository).save(any());
+    }
+
+    @DisplayName("Should Update Exam Successfully")
+    @Test
+    void testShouldUpdateExamSuccessfully() {
+        when(examRepository.getOne(examId)).thenReturn(exam);
+
+        ExamDto tempExamDto = ExamDto.builder()
+                .examId(examId.toString())
+                .examName("a new exam")
+                .build();
+
+        examService.updateExam(tempExamDto);
+
+        assertThat(exam.getExamName())
+                .isEqualTo(tempExamDto.getExamName())
+                .isNotNull();
+
+        verify(examRepository).getOne(examId);
+        verify(examRepository).save(any());
+    }
+
+    @DisplayName("Should Delete Exam Successfully")
+    @Test
+    void testShouldDeleteExamSuccessfully() {
+        when(examRepository.getOne(examId)).thenReturn(exam);
+
+        examService.deleteExam(examId);
+
+
+        verify(examRepository).getOne(any());
+        verify(examRepository).delete(any());
     }
 
 }

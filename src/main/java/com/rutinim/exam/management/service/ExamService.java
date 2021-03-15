@@ -11,4 +11,10 @@ public interface ExamService {
 
     ExamDto getExam(UUID examId);
 
+    void saveExam(ExamDto examDto);
+
+    void updateExam(ExamDto examDto);
+
+    void deleteExam(UUID examId);
+
 }

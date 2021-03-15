@@ -35,4 +35,27 @@ public class ExamServiceImpl implements ExamService {
         return examMapper.examToExamDto(optionalExam.get());
     }
 
+    @Override
+    public void saveExam(ExamDto examDto) {
+        examRepository.save(examMapper.examDtoToExam(examDto));
+    }
+
+    @Override
+    public void updateExam(ExamDto examDto) {
+        Exam tempExam = examMapper.examDtoToExam(examDto);
+        Exam exam = examRepository.getOne(tempExam.getId());
+
+        exam.setExamName(tempExam.getExamName());
+        exam.setExamType(tempExam.getExamType());
+
+        examRepository.save(exam);
+    }
+
+    @Override
+    public void deleteExam(UUID examId) {
+        Exam exam = examRepository.getOne(examId);
+
+        examRepository.delete(exam);
+    }
+
 }
