@@ -2,10 +2,13 @@ package com.rutinim.exam.management.service;
 
 import com.rutinim.exam.management.domain.Exam;
 import com.rutinim.exam.management.domain.ExamPublisher;
+import com.rutinim.exam.management.domain.PublisherSeries;
 import com.rutinim.exam.management.repository.ExamPublisherRepository;
 import com.rutinim.exam.management.service.impl.ExamPublisherServiceImpl;
 import com.rutinim.exam.management.web.mappers.ExamPublisherMapper;
+import com.rutinim.exam.management.web.model.ExamDto;
 import com.rutinim.exam.management.web.model.ExamPublisherDto;
+import com.rutinim.exam.management.web.model.PublisherSeriesDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,13 +19,11 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,17 +41,28 @@ class ExamPublisherServiceTest {
 
     ExamPublisher examPublisher;
     ExamPublisherDto examPublisherDto;
+    Exam exam;
     UUID publisherId;
     UUID examPublisherId;
+    UUID examId;
 
     @BeforeEach
     void setUp() {
         publisherId = UUID.randomUUID();
         examPublisherId = UUID.randomUUID();
+        examId = UUID.randomUUID();
+
+        exam = Exam.builder()
+                .id(examId)
+                .examName("a exam name")
+                .build();
+
         examPublisher = ExamPublisher.builder()
                 .id(examPublisherId)
                 .publisherId(publisherId)
                 .publisherName("A simple publisher")
+                .publisherSeries(new ArrayList<PublisherSeries>())
+                .exam(exam)
                 .build();
 
         examPublisherDto = examPublisherMapper.examPublisherToExamPublisherDto(examPublisher);
@@ -83,4 +95,77 @@ class ExamPublisherServiceTest {
 
         verify(examPublisherRepository).findAll();
     }
+
+    @DisplayName("Should Save Exam Publisher Successfully")
+    @Test
+    void shouldSaveExamPublisherSuccessfully() {
+        examPublisherService.saveExamPublisher(examPublisherDto);
+
+        verify(examPublisherRepository).save(any());
+    }
+
+    @DisplayName("Should Update Exam Publisher Successfully")
+    @Test
+    void shouldUpdateExamPublisherSuccessfully() {
+        when(examPublisherRepository.getOne(examPublisherId)).thenReturn(examPublisher);
+
+        ExamDto updatedExamDto = ExamDto.builder().examId(examId.toString()).examName("new exam name").build();
+
+        ExamPublisherDto updatedExamPublisherDto = ExamPublisherDto.builder()
+                .examPublisherId(examPublisherDto.getExamPublisherId())
+                .publisherId(examPublisherDto.getPublisherId())
+                .publisherName("different publisher name")
+                .examDto(updatedExamDto)
+                .build();
+
+        examPublisherService.updateExamPublisher(updatedExamPublisherDto);
+
+        assertThat(examPublisher.getPublisherName())
+                .isEqualTo(updatedExamPublisherDto.getPublisherName())
+                .isNotNull();
+
+        assertThat(examPublisher.getExam().getExamName())
+                .isEqualTo(updatedExamDto.getExamName())
+                .isNotNull();
+
+        verify(examPublisherRepository).getOne(examPublisherId);
+        verify(examPublisherRepository).save(any());
+    }
+
+
+    @DisplayName("Should Add a Publisher Series to Exam Publisher Successfully")
+    @Test
+    void shouldUpdateAddPublisherSeriesToExamPublisherSuccessfully() {
+        when(examPublisherRepository.getOne(examPublisherId)).thenReturn(examPublisher);
+
+        PublisherSeriesDto publisherSeriesDto = PublisherSeriesDto.builder()
+                .sequenceName("a new sequence name")
+                .numberOfSequence(5)
+                .build();
+
+        examPublisherDto.getPublisherSeriesDto().add(publisherSeriesDto);
+
+        examPublisherService.addPublisherSeries(examPublisherDto);
+
+        assertThat(examPublisher.getPublisherSeries().get(0).getSequenceName())
+                .isEqualTo(publisherSeriesDto.getSequenceName())
+                .isNotNull();
+
+        verify(examPublisherRepository).getOne(examPublisherId);
+        verify(examPublisherRepository).save(any());
+    }
+
+    @DisplayName("Should Delete Exam Publisher Successfully")
+    @Test
+    void shouldDeleteExamPublisherSuccessfully() {
+        when(examPublisherRepository.getOne(examPublisherId)).thenReturn(examPublisher);
+
+        examPublisherService.deleteExamPublisher(examPublisherId);
+
+        verify(examPublisherRepository).getOne(examPublisherId);
+        verify(examPublisherRepository).delete(any());
+    }
+
+
+
 }
