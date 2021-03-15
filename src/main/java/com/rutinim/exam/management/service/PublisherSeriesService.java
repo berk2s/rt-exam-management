@@ -9,8 +9,6 @@ public interface PublisherSeriesService {
 
     PublisherSeriesDto getPublisherSeries(UUID publisherSeriesId);
 
-    void updatePublisherSeries(UUID examPublisherId, PublisherSeriesDto publisherSeriesDto);
-
-    void deletePublisherSeries(UUID publisherSeriesId);
+    void updatePublisherSeries(PublisherSeriesDto publisherSeriesDto);
 
 }

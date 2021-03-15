@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,8 +54,8 @@ public class ExamPublisher {
     private Exam exam;
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "examPublisher", cascade = CascadeType.ALL)
-    private List<PublisherSeries> publisherSeries;
+    @OneToMany(mappedBy = "examPublisher", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PublisherSeries> publisherSeries = new ArrayList<>();
 
     public void setPublisherSeries(List<PublisherSeries> publisherSeries) {
         this.publisherSeries = publisherSeries;
