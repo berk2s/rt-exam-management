@@ -6,6 +6,8 @@ import com.rutinim.exam.management.domain.PublisherSeries;
 import com.rutinim.exam.management.repository.ExamPublisherRepository;
 import com.rutinim.exam.management.service.impl.ExamPublisherServiceImpl;
 import com.rutinim.exam.management.web.mappers.ExamPublisherMapper;
+import com.rutinim.exam.management.web.mappers.ExamPublisherMapperImpl;
+import com.rutinim.exam.management.web.mappers.PublisherSeriesMapper;
 import com.rutinim.exam.management.web.model.ExamDto;
 import com.rutinim.exam.management.web.model.ExamPublisherDto;
 import com.rutinim.exam.management.web.model.PublisherSeriesDto;
@@ -34,7 +36,9 @@ class ExamPublisherServiceTest {
     private ExamPublisherRepository examPublisherRepository;
 
     @Spy
-    private final ExamPublisherMapper examPublisherMapper = Mappers.getMapper(ExamPublisherMapper.class);
+    private final PublisherSeriesMapper publisherSeriesMapper = Mappers.getMapper(PublisherSeriesMapper.class);
+    @Spy
+    private final ExamPublisherMapper examPublisherMapper = new ExamPublisherMapperImpl(publisherSeriesMapper);
 
     @InjectMocks
     private ExamPublisherServiceImpl examPublisherService;
@@ -164,6 +168,35 @@ class ExamPublisherServiceTest {
 
         verify(examPublisherRepository).getOne(examPublisherId);
         verify(examPublisherRepository).delete(any());
+    }
+
+
+    @DisplayName("Should Delete Publisher Series Successfully")
+    @Test
+    void shouldDeletePublisherSeriesSuccessfully() {
+        PublisherSeries publisherSeriesDto1 = PublisherSeries.builder().id(UUID.randomUUID()).build();
+        PublisherSeries publisherSeriesDto2 = PublisherSeries.builder().id(UUID.randomUUID()).build();
+        PublisherSeries publisherSeriesDto3 = PublisherSeries.builder().id(UUID.randomUUID()).build();
+        PublisherSeries publisherSeriesDto4 = PublisherSeries.builder().id(UUID.randomUUID()).build();
+        examPublisher.addPublisherSeries(publisherSeriesDto1);
+        examPublisher.addPublisherSeries(publisherSeriesDto2);
+        examPublisher.addPublisherSeries(publisherSeriesDto3);
+        examPublisher.addPublisherSeries(publisherSeriesDto4);
+
+        when(examPublisherRepository.getOne(examPublisherId)).thenReturn(examPublisher);
+
+        ExamPublisherDto tempDto = examPublisherMapper.examPublisherToExamPublisherDto(examPublisher);
+
+        tempDto.getPublisherSeriesDto().remove(0);
+
+        examPublisherService.deletePublisherSeries(tempDto);
+
+        assertThat(examPublisher.getPublisherSeries().size())
+                .isEqualTo(1)
+                .isNotNull();
+
+        verify(examPublisherRepository).getOne(examPublisherId);
+        verify(examPublisherRepository).save(any());
     }
 
 
