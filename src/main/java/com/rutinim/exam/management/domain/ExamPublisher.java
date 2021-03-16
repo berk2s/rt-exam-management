@@ -50,8 +50,8 @@ public class ExamPublisher {
     private Timestamp lastModifitedDate;
 
     @ManyToOne
-    @JoinColumn(name = "exam_id", referencedColumnName = "id")
-    private Exam exam;
+    @JoinColumn(name = "exam_type_id", referencedColumnName = "id")
+    private ExamType examType;
 
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "examPublisher", cascade = CascadeType.ALL, orphanRemoval = true)

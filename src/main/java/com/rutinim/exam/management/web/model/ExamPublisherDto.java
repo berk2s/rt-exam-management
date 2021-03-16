@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Getter
@@ -30,10 +31,14 @@ public class ExamPublisherDto {
     @NotBlank
     private String examImage;
 
-    @NotNull
-    private ExamDto examDto;
+    private ExamTypeDto examTypeDto;
+
+    private List<PublisherSeriesDto> publisherSeriesDto;
 
     @NotNull
-    private List<PublisherSeriesDto> publisherSeriesDto;
+    private Boolean isPublisherSeriesChanged;
+
+    @NotNull
+    private UUID examTypeId;
 
 }

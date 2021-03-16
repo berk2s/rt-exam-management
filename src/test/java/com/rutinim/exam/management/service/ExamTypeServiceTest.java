@@ -1,7 +1,9 @@
 package com.rutinim.exam.management.service;
 
+import com.rutinim.exam.management.domain.Exam;
 import com.rutinim.exam.management.domain.ExamField;
 import com.rutinim.exam.management.domain.ExamType;
+import com.rutinim.exam.management.repository.ExamRepository;
 import com.rutinim.exam.management.repository.ExamTypeRepository;
 import com.rutinim.exam.management.service.impl.ExamTypeServiceImpl;
 import com.rutinim.exam.management.web.mappers.ExamFieldMapper;
@@ -36,6 +38,9 @@ class ExamTypeServiceTest {
     @Mock
     private ExamTypeRepository examTypeRepository;
 
+    @Mock
+    private ExamRepository examRepository;
+
     @Spy
     private final ExamFieldMapper examFieldMapper = Mappers.getMapper(ExamFieldMapper.class);
 
@@ -50,14 +55,21 @@ class ExamTypeServiceTest {
 
     ExamField examField;
     ExamFieldDto examFieldDto;
+    Exam exam;
 
     UUID examTypeId;
     UUID examFieldId;
+    UUID examId;
 
     @BeforeEach
     void setUp(){
         examTypeId = UUID.randomUUID();
         examFieldId = UUID.randomUUID();
+        examId = UUID.randomUUID();
+
+        exam = new Exam();
+        exam.setId(examId);
+        exam.setExamName("a name");
 
         examField = new ExamField();
         examField.setFieldName("a exam field name");
@@ -68,10 +80,12 @@ class ExamTypeServiceTest {
         examType.setExamDuration(60);
         examType.setIsPreparatoryExam(true);
         examType.setIsOnePiece(true);
+        examType.setExam(exam);
         examType.setId(examTypeId);
         examType.addExamField(examField);
 
         examTypeDto = examTypeMapper.examTypeToExamTypeDto(examType);
+        examTypeDto.setExamId(examId);
     }
 
     @DisplayName("Test Should List Exam Type Successfully")
@@ -81,8 +95,8 @@ class ExamTypeServiceTest {
 
         List<ExamTypeDto> returnedExamTypeDtos = examTypeService.listExamTypes();
 
-        assertThat(returnedExamTypeDtos)
-                .isEqualTo(Collections.singletonList(examTypeDto))
+        assertThat(returnedExamTypeDtos.size())
+                .isEqualTo(1)
                 .isNotNull();
 
         verify(examTypeRepository).findAll();
@@ -95,8 +109,8 @@ class ExamTypeServiceTest {
 
         ExamTypeDto returnedExamTypeDto = examTypeService.getExamType(examTypeId);
 
-        assertThat(returnedExamTypeDto)
-                .isEqualTo(examTypeDto)
+        assertThat(returnedExamTypeDto.getExamTypeId())
+                .isEqualTo(examTypeDto.getExamTypeId())
                 .isNotNull();
 
         verify(examTypeRepository).findById(examTypeId);
@@ -140,6 +154,7 @@ class ExamTypeServiceTest {
     void testShouldUpdatingExamTypeSuccessfully() {
 
         examTypeDto.setTypeName("a different name!");
+        examTypeDto.setIsExamFieldsChanged(true);
 
         when(examTypeRepository.getOne(examTypeId)).thenReturn(examType);
 
@@ -157,6 +172,7 @@ class ExamTypeServiceTest {
     void testShouldDeletingEmptyArrayExamFieldSuccessfully() {
 
         examTypeDto.getExamFieldsDto().remove(0);
+        examTypeDto.setIsExamFieldsChanged(true);
 
         when(examTypeRepository.getOne(examTypeId)).thenReturn(examType);
 
@@ -177,10 +193,14 @@ class ExamTypeServiceTest {
         examField2.setFieldName("a exam field name");
         examField2.setId(UUID.randomUUID());
 
+
         examType.addExamField(examField2);
+        examTypeDto.setIsExamFieldsChanged(true);
+
         ExamTypeDto tempExamTypeDto = examTypeMapper.examTypeToExamTypeDto(examType);
 
         tempExamTypeDto.getExamFieldsDto().remove(0);
+        tempExamTypeDto.setIsExamFieldsChanged(true);
 
         when(examTypeRepository.getOne(examTypeId)).thenReturn(examType);
 

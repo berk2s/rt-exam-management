@@ -95,17 +95,17 @@ class ExamPublisherRepositoryTest {
     @DisplayName("** Test Exam Publisher Belongs To Exam **")
     class TestExamPublisherBelongsToExam {
 
-        Exam exam;
-        UUID examID = UUID.randomUUID();
+        ExamType examType;
+        UUID examTypeID = UUID.randomUUID();
 
         @BeforeEach
         void setUp(){
 
-            exam = new Exam();
-            exam.setId(examID);
-            exam.setExamName("A simple exam");
+            examType = new ExamType();
+            examType.setId(examTypeID);
+            examType.setTypeName("A simple exam type");
 
-            examPublisher.setExam(exam);
+            examPublisher.setExamType(examType);
 
             examPublisherRepository.save(examPublisher);
 
@@ -116,25 +116,25 @@ class ExamPublisherRepositoryTest {
         void testExamPublisherShouldMatchesBelongsToExam() {
             Optional<ExamPublisher> optionalExamPublisher = examPublisherRepository.findById(examPublisher.getId());
 
-            assertThat(optionalExamPublisher.get().getExam())
-                    .isEqualTo(exam)
+            assertThat(optionalExamPublisher.get().getExamType())
+                    .isEqualTo(examType)
                     .isNotNull();
         }
 
         @DisplayName("Update Exam Publisher's Exam")
         @Test
         void testUpdateExamPublishersExam() {
-            Exam newExam = Exam.builder().id(UUID.randomUUID()).examName("different exam!").build();
+            ExamType newExamType = ExamType.builder().id(UUID.randomUUID()).typeName("different exam type!").build();
 
             ExamPublisher _examPublisher = examPublisherRepository.getOne(examPublisher.getId());
 
-            _examPublisher.setExam(newExam);
+            _examPublisher.setExamType(newExamType);
             examPublisherRepository.save(_examPublisher);
 
             Optional<ExamPublisher> optionalExamPublisher = examPublisherRepository.findById(examPublisher.getId());
 
-            assertThat(optionalExamPublisher.get().getExam())
-                    .isEqualTo(newExam)
+            assertThat(optionalExamPublisher.get().getExamType())
+                    .isEqualTo(newExamType)
                     .isNotNull();
         }
     }

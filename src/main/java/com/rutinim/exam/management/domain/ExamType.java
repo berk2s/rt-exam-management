@@ -52,6 +52,10 @@ public class ExamType {
     @OneToMany(mappedBy = "examType", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExamField> examFields = new ArrayList<>();
 
+    @ManyToOne()
+    @JoinColumn(name = "exam_id", referencedColumnName = "id")
+    private Exam exam;
+
     public void addExamField(ExamField examField){
         examField.setExamType(this);
         this.examFields.add(examField);

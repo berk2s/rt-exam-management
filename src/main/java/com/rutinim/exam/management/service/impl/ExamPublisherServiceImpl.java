@@ -1,8 +1,10 @@
 package com.rutinim.exam.management.service.impl;
 
 import com.rutinim.exam.management.domain.ExamPublisher;
+import com.rutinim.exam.management.domain.ExamType;
 import com.rutinim.exam.management.domain.PublisherSeries;
 import com.rutinim.exam.management.repository.ExamPublisherRepository;
+import com.rutinim.exam.management.repository.ExamTypeRepository;
 import com.rutinim.exam.management.service.ExamPublisherService;
 import com.rutinim.exam.management.web.exception.ExamPublisherNotFoundException;
 import com.rutinim.exam.management.web.mappers.ExamPublisherMapper;
@@ -20,6 +22,7 @@ import java.util.UUID;
 public class ExamPublisherServiceImpl implements ExamPublisherService {
 
     private final ExamPublisherRepository examPublisherRepository;
+    private final ExamTypeRepository examTypeRepository;
     private final ExamPublisherMapper examPublisherMapper;
 
     @Override
@@ -52,12 +55,18 @@ public class ExamPublisherServiceImpl implements ExamPublisherService {
         examPublisher.setPublisherId(tempExamPublisher.getPublisherId());
         examPublisher.setExamImage(tempExamPublisher.getExamImage());
         examPublisher.setNumberOfSeries(tempExamPublisher.getNumberOfSeries());
-        examPublisher.setExam(tempExamPublisher.getExam());
 
-        if(tempExamPublisher.getPublisherSeries().size() > 0) {
-            examPublisher.getPublisherSeries().removeIf(p -> examPublisherDto.getPublisherSeriesDto().stream().noneMatch(f -> f.getPublisherSeriesId().equals(p.getId().toString())));
-        }else{
-            examPublisher.getPublisherSeries().clear();
+        if(!examPublisher.getExamType().getId().equals(examPublisherDto.getExamTypeId())){
+            ExamType examType = examTypeRepository.getOne(examPublisherDto.getExamTypeId());
+            examPublisher.setExamType(examType);
+        }
+
+        if(examPublisherDto.getIsPublisherSeriesChanged()) {
+            if (tempExamPublisher.getPublisherSeries().size() > 0) {
+                examPublisher.getPublisherSeries().removeIf(p -> examPublisherDto.getPublisherSeriesDto().stream().noneMatch(f -> f.getPublisherSeriesId().equals(p.getId().toString())));
+            } else {
+                examPublisher.getPublisherSeries().clear();
+            }
         }
 
         examPublisherRepository.save(examPublisher);
