@@ -119,10 +119,11 @@ class ExamPublisherServiceTest {
                 .examPublisherId(examPublisherDto.getExamPublisherId())
                 .publisherId(examPublisherDto.getPublisherId())
                 .publisherName("different publisher name")
+                .publisherSeriesDto(new ArrayList<>())
                 .examDto(updatedExamDto)
                 .build();
 
-        examPublisherService.updateExamPublisher(updatedExamPublisherDto);
+        examPublisherService.updateExamPublisher(examPublisherId, updatedExamPublisherDto);
 
         assertThat(examPublisher.getPublisherName())
                 .isEqualTo(updatedExamPublisherDto.getPublisherName())
@@ -136,7 +137,6 @@ class ExamPublisherServiceTest {
         verify(examPublisherRepository).save(any());
     }
 
-
     @DisplayName("Should Add a Publisher Series to Exam Publisher Successfully")
     @Test
     void shouldUpdateAddPublisherSeriesToExamPublisherSuccessfully() {
@@ -149,7 +149,7 @@ class ExamPublisherServiceTest {
 
         examPublisherDto.getPublisherSeriesDto().add(publisherSeriesDto);
 
-        examPublisherService.addPublisherSeries(examPublisherDto);
+        examPublisherService.addPublisherSeries(examPublisherId, examPublisherDto);
 
         assertThat(examPublisher.getPublisherSeries().get(0).getSequenceName())
                 .isEqualTo(publisherSeriesDto.getSequenceName())
@@ -170,7 +170,6 @@ class ExamPublisherServiceTest {
         verify(examPublisherRepository).delete(any());
     }
 
-
     @DisplayName("Should Delete Publisher Series Successfully")
     @Test
     void shouldDeletePublisherSeriesSuccessfully() {
@@ -183,16 +182,16 @@ class ExamPublisherServiceTest {
         examPublisher.addPublisherSeries(publisherSeriesDto3);
         examPublisher.addPublisherSeries(publisherSeriesDto4);
 
-        when(examPublisherRepository.getOne(examPublisherId)).thenReturn(examPublisher);
-
         ExamPublisherDto tempDto = examPublisherMapper.examPublisherToExamPublisherDto(examPublisher);
 
         tempDto.getPublisherSeriesDto().remove(0);
+        when(examPublisherRepository.getOne(examPublisherId)).thenReturn(examPublisher);
 
-        examPublisherService.deletePublisherSeries(tempDto);
+
+        examPublisherService.updateExamPublisher(examPublisherId, tempDto);
 
         assertThat(examPublisher.getPublisherSeries().size())
-                .isEqualTo(1)
+                .isEqualTo(3)
                 .isNotNull();
 
         verify(examPublisherRepository).getOne(examPublisherId);

@@ -77,7 +77,7 @@ class PublisherSeriesServiceTest {
                 .sequenceName("a sequence name")
                 .build();
 
-        publisherSeriesService.updatePublisherSeries(publisherSeriesDto);
+        publisherSeriesService.updatePublisherSeries(publisherSeries.getId(), publisherSeriesDto);
 
         assertThat(publisherSeries.getSequenceName())
                 .isEqualTo(_publisherSeriesDto.getSequenceName())

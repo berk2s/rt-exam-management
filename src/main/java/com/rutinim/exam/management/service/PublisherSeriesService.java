@@ -8,6 +8,6 @@ public interface PublisherSeriesService {
 
     PublisherSeriesDto getPublisherSeries(UUID publisherSeriesId);
 
-    void updatePublisherSeries(PublisherSeriesDto publisherSeriesDto);
+    void updatePublisherSeries(UUID publisherSeriesId, PublisherSeriesDto publisherSeriesDto);
 
 }

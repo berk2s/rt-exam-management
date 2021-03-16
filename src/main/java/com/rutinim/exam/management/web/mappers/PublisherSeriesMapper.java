@@ -13,7 +13,6 @@ import java.util.UUID;
 public interface PublisherSeriesMapper {
 
     @Mappings({
-            @Mapping(target = "id", expression = "java( UUID.fromString(publisherSeriesDto.getPublisherSeriesId()) )"),
             @Mapping(target = "examPublisher.id", source = "examPublisherId")
     })
     PublisherSeries publisherSeriesDtoToPublisherSeries(PublisherSeriesDto publisherSeriesDto);

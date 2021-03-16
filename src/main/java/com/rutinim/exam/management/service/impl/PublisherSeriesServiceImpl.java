@@ -30,12 +30,11 @@ public class PublisherSeriesServiceImpl implements PublisherSeriesService {
     }
 
     @Override
-    public void updatePublisherSeries(PublisherSeriesDto publisherSeriesDto) {
-        PublisherSeries tempPublisherSeries = publisherSeriesMapper.publisherSeriesDtoToPublisherSeries(publisherSeriesDto);
-        PublisherSeries publisherSeries = publisherSeriesRepository.getOne(tempPublisherSeries.getId());
+    public void updatePublisherSeries(UUID publisherSeriesId, PublisherSeriesDto publisherSeriesDto) {
+        PublisherSeries publisherSeries = publisherSeriesRepository.getOne(publisherSeriesId);
 
-        publisherSeries.setNumberOfSequence(tempPublisherSeries.getNumberOfSequence());
-        publisherSeries.setSequenceName(tempPublisherSeries.getSequenceName());
+        publisherSeries.setNumberOfSequence(publisherSeriesDto.getNumberOfSequence());
+        publisherSeries.setSequenceName(publisherSeriesDto.getSequenceName());
 
         publisherSeriesRepository.save(publisherSeries);
     }

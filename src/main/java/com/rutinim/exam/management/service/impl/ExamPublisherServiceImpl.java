@@ -43,10 +43,10 @@ public class ExamPublisherServiceImpl implements ExamPublisherService {
     }
 
     @Override
-    public void updateExamPublisher(ExamPublisherDto examPublisherDto) {
+    public void updateExamPublisher(UUID examPublisherId, ExamPublisherDto examPublisherDto) {
         ExamPublisher tempExamPublisher = examPublisherMapper.examPublisherDtoToExamPublisher(examPublisherDto);
 
-        ExamPublisher examPublisher = examPublisherRepository.getOne(tempExamPublisher.getId());
+        ExamPublisher examPublisher = examPublisherRepository.getOne(examPublisherId);
 
         examPublisher.setPublisherName(tempExamPublisher.getPublisherName());
         examPublisher.setPublisherId(tempExamPublisher.getPublisherId());
@@ -54,14 +54,20 @@ public class ExamPublisherServiceImpl implements ExamPublisherService {
         examPublisher.setNumberOfSeries(tempExamPublisher.getNumberOfSeries());
         examPublisher.setExam(tempExamPublisher.getExam());
 
+        if(tempExamPublisher.getPublisherSeries().size() > 0) {
+            examPublisher.getPublisherSeries().removeIf(p -> examPublisherDto.getPublisherSeriesDto().stream().noneMatch(f -> f.getPublisherSeriesId().equals(p.getId().toString())));
+        }else{
+            examPublisher.getPublisherSeries().clear();
+        }
+
         examPublisherRepository.save(examPublisher);
     }
 
     @Override
-    public void addPublisherSeries(ExamPublisherDto examPublisherDto) {
+    public void addPublisherSeries(UUID examPublisherId, ExamPublisherDto examPublisherDto) {
         ExamPublisher tempExamPublisher = examPublisherMapper.examPublisherDtoToExamPublisher(examPublisherDto);
 
-        ExamPublisher examPublisher = examPublisherRepository.getOne(tempExamPublisher.getId());
+        ExamPublisher examPublisher = examPublisherRepository.getOne(examPublisherId);
 
         tempExamPublisher.getPublisherSeries().forEach(examPublisher::addPublisherSeries);
 
@@ -74,14 +80,4 @@ public class ExamPublisherServiceImpl implements ExamPublisherService {
         examPublisherRepository.delete(examPublisher);
     }
 
-    @Override
-    public void deletePublisherSeries(ExamPublisherDto examPublisherDto) {
-        ExamPublisher tempExamPublisher = examPublisherMapper.examPublisherDtoToExamPublisher(examPublisherDto);
-
-        ExamPublisher examPublisher = examPublisherRepository.getOne(tempExamPublisher.getId());
-
-        examPublisher.getPublisherSeries().removeIf(p -> tempExamPublisher.getPublisherSeries().stream().anyMatch(f -> f.getId().equals(p.getId())));
-
-        examPublisherRepository.save(examPublisher);
-    }
 }

@@ -14,12 +14,10 @@ public interface ExamPublisherService {
 
     void saveExamPublisher(ExamPublisherDto examPublisherDto);
 
-    void updateExamPublisher(ExamPublisherDto examPublisherDto);
+    void updateExamPublisher(UUID examPublisherId, ExamPublisherDto examPublisherDto);
 
-    void addPublisherSeries(ExamPublisherDto examPublisherDto);
+    void addPublisherSeries(UUID examPublisherId, ExamPublisherDto examPublisherDto);
 
     void deleteExamPublisher(UUID examPublisherId);
-
-    void deletePublisherSeries(ExamPublisherDto examPublisherDto);
 
 }
