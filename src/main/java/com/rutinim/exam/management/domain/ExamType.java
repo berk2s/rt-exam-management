@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,13 +42,19 @@ public class ExamType {
     @Column(name = "is_preparatory_exam")
     private Boolean isPreparatoryExam;
 
-    @OneToMany(mappedBy = "examType", cascade = CascadeType.ALL)
-    private List<ExamField> examFields;
-
     @CreationTimestamp
     private Timestamp createdAt;
 
     @UpdateTimestamp
     private Timestamp lastModifitedDate;
+
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "examType", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExamField> examFields = new ArrayList<>();
+
+    public void addExamField(ExamField examField){
+        examField.setExamType(this);
+        this.examFields.add(examField);
+    }
 
 }

@@ -41,9 +41,9 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public void updateExam(ExamDto examDto) {
+    public void updateExam(UUID examId, ExamDto examDto) {
         Exam tempExam = examMapper.examDtoToExam(examDto);
-        Exam exam = examRepository.getOne(tempExam.getId());
+        Exam exam = examRepository.getOne(examId);
 
         exam.setExamName(tempExam.getExamName());
         exam.setExamType(tempExam.getExamType());

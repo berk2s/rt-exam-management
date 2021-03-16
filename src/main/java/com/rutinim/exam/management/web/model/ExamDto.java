@@ -2,9 +2,9 @@ package com.rutinim.exam.management.web.model;
 
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import java.sql.Timestamp;
 
 @Data
 @Getter
@@ -14,10 +14,13 @@ import java.sql.Timestamp;
 @Builder
 public class ExamDto {
 
+    @Null
     private String examId;
 
+    @NotBlank
     private String examName;
 
+    @NotNull
     private ExamTypeDto examTypeDto;
 
 }

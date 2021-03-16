@@ -14,7 +14,6 @@ public interface ExamMapper {
 
     @Mappings({
             @Mapping(target = "examType", source = "examTypeDto"),
-            @Mapping(target = "id", expression = "java( UUID.fromString(examDto.getExamId()) )")
     })
     Exam examDtoToExam(ExamDto examDto);
 

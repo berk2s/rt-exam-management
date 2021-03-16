@@ -13,7 +13,7 @@ public interface ExamService {
 
     void saveExam(ExamDto examDto);
 
-    void updateExam(ExamDto examDto);
+    void updateExam(UUID examId, ExamDto examDto);
 
     void deleteExam(UUID examId);
 

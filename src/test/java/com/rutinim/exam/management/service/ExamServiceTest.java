@@ -100,7 +100,7 @@ class ExamServiceTest {
                 .examName("a new exam")
                 .build();
 
-        examService.updateExam(tempExamDto);
+        examService.updateExam(examId, tempExamDto);
 
         assertThat(exam.getExamName())
                 .isEqualTo(tempExamDto.getExamName())

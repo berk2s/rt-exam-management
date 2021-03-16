@@ -14,7 +14,6 @@ import java.util.UUID;
 public interface ExamPublisherMapper {
 
     @Mappings({
-            @Mapping(target = "id", expression = "java( UUID.fromString(examPublisherDto.getExamPublisherId()) )"),
             @Mapping(target = "publisherId", expression = "java( UUID.fromString(examPublisherDto.getPublisherId()) )"),
             @Mapping(target = "exam", source = "examDto"),
             @Mapping(target = "publisherSeries", source = "publisherSeriesDto"),
