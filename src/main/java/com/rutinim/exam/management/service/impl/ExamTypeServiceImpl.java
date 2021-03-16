@@ -1,6 +1,8 @@
 package com.rutinim.exam.management.service.impl;
 
+import com.rutinim.exam.management.domain.Exam;
 import com.rutinim.exam.management.domain.ExamType;
+import com.rutinim.exam.management.repository.ExamRepository;
 import com.rutinim.exam.management.repository.ExamTypeRepository;
 import com.rutinim.exam.management.service.ExamTypeService;
 import com.rutinim.exam.management.web.exception.ExamTypeNotFoundException;
@@ -18,6 +20,7 @@ import java.util.UUID;
 public class ExamTypeServiceImpl implements ExamTypeService {
 
     private final ExamTypeRepository examTypeRepository;
+    private final ExamRepository examRepository;
     private final ExamTypeMapper examTypeMapper;
 
     @Override
@@ -59,10 +62,18 @@ public class ExamTypeServiceImpl implements ExamTypeService {
         examType.setIsPreparatoryExam(examTypeDto.getIsPreparatoryExam());
         examType.setIsOnePiece(examTypeDto.getIsOnePiece());
 
-        if(examTypeDto.getExamFieldsDto().size() > 0) {
-            examType.getExamFields().removeIf(f -> examTypeDto.getExamFieldsDto().stream().noneMatch(c -> c.getExamFieldId().equals(f.getId().toString())));
-        }else {
-            examType.getExamFields().clear();
+        if(!examType.getExam().getId().equals(examTypeDto.getExamId())) {
+            Exam exam = examRepository.getOne(examTypeDto.getExamId());
+            examType.getExam().getExamTypes().remove(examType);
+            examType.setExam(exam);
+        }
+
+        if(examTypeDto.getIsExamFieldsChanged()) {
+            if (examTypeDto.getExamFieldsDto().size() > 0) {
+                examType.getExamFields().removeIf(f -> examTypeDto.getExamFieldsDto().stream().noneMatch(c -> c.getExamFieldId().equals(f.getId().toString())));
+            } else {
+                examType.getExamFields().clear();
+            }
         }
 
         examTypeRepository.save(examType);

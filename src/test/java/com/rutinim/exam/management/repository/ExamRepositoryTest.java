@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -19,6 +20,9 @@ class ExamRepositoryTest {
 
     @Autowired
     private ExamRepository examRepository;
+
+    @Autowired
+    private ExamTypeRepository examTypeRepository;
 
     Exam exam;
 
@@ -53,7 +57,7 @@ class ExamRepositoryTest {
             examType.setExamDuration(70);
             examType.setTypeName("A Simple Exam Type");
 
-            exam.setExamType(examType);
+            exam.addExamType(examType);
 
             examRepository.save(exam);
         }
@@ -63,12 +67,71 @@ class ExamRepositoryTest {
         void testShouldExamTypeSavedSuccessfully() {
             Optional<Exam> optionalExam = examRepository.findById(exam.getId());
 
-            assertThat(optionalExam.get().getExamType())
-                    .isEqualTo(examType)
+            assertThat(optionalExam.get().getExamTypes().get(0).getTypeName())
+                    .isEqualTo(examType.getTypeName())
+                    .isNotNull();
+
+        }
+
+        @DisplayName("Should Exam Type Saved In Table")
+        @Test
+        void testShouldExamTypeSavedInTableSuccessfully() {
+            List<ExamType> optionalExamType = examTypeRepository.findAll();
+
+            assertThat(optionalExamType.size())
+                    .isEqualTo(1)
+                    .isNotNull();
+
+        }
+
+        @DisplayName("Should Exam Type Deleting Safely")
+        @Test
+        void testShouldDeletingExamTypeSafely() {
+            Exam tempExam = examRepository.getOne(exam.getId());
+            tempExam.getExamTypes().get(0).setExam(null);
+            tempExam.getExamTypes().remove(0);
+
+            examRepository.save(tempExam);
+
+            List<ExamType> optionalExamType = examTypeRepository.findAll();
+
+            assertThat(optionalExamType.get(0).getExam())
+                    .isEqualTo(null);
+        }
+
+        @DisplayName("Should Updating Exam Type's Exam Successfully")
+        @Test
+        void testShouldUpdatingExamTypesExamSuccessfully() {
+            ExamType tempExamType = examTypeRepository.getOne(exam.getExamTypes().get(0).getId());
+
+            tempExamType.getExam().getExamTypes().remove(tempExamType);
+
+            Exam tempExam = new Exam();
+            tempExam.setExamName("a different exam");
+            tempExam.addExamType(tempExamType);
+
+            examRepository.save(tempExam);
+
+            tempExamType.setTypeName("changed name");
+            tempExamType.setExam(tempExam);
+
+            examTypeRepository.save(tempExamType);
+
+            Optional<ExamType> optionalExamType = examTypeRepository.findById(tempExamType.getId());
+
+            assertThat(optionalExamType.get().getExam().getExamName())
+                    .isEqualTo(tempExam.getExamName())
+                    .isNotNull();
+
+            Optional<Exam> optionalExam = examRepository.findById(exam.getId());
+
+            assertThat(optionalExam.get().getExamTypes().size())
+                    .isEqualTo(0)
                     .isNotNull();
 
         }
 
     }
+
 
 }

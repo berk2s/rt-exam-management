@@ -5,6 +5,7 @@ import lombok.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.util.List;
 
 @Data
 @Getter
@@ -21,6 +22,8 @@ public class ExamDto {
     private String examName;
 
     @NotNull
-    private ExamTypeDto examTypeDto;
+    private List<ExamTypeDto> examTypeDtos;
+
+
 
 }

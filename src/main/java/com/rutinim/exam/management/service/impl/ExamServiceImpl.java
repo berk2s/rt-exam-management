@@ -46,8 +46,7 @@ public class ExamServiceImpl implements ExamService {
         Exam exam = examRepository.getOne(examId);
 
         exam.setExamName(tempExam.getExamName());
-        exam.setExamType(tempExam.getExamType());
-
+        
         examRepository.save(exam);
     }
 

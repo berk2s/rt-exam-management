@@ -15,7 +15,7 @@ public interface ExamPublisherMapper {
 
     @Mappings({
             @Mapping(target = "publisherId", expression = "java( UUID.fromString(examPublisherDto.getPublisherId()) )"),
-            @Mapping(target = "exam", source = "examDto"),
+            @Mapping(target = "examType", source = "examTypeDto"),
             @Mapping(target = "publisherSeries", source = "publisherSeriesDto"),
     })
     ExamPublisher examPublisherDtoToExamPublisher(ExamPublisherDto examPublisherDto);
@@ -23,16 +23,18 @@ public interface ExamPublisherMapper {
     @Mappings({
             @Mapping(target = "examPublisherId", expression = "java( examPublisher.getId().toString() )"),
             @Mapping(target = "publisherId", expression = "java( examPublisher.getPublisherId().toString() )"),
-            @Mapping(target = "examDto", source = "exam"),
+            @Mapping(target = "examTypeDto", source = "examType"),
             @Mapping(target = "publisherSeriesDto", source = "publisherSeries"),
+            @Mapping(target = "examTypeId", source = "examType.id"),
     })
     ExamPublisherDto examPublisherToExamPublisherDto(ExamPublisher examPublisher);
 
     @Mappings({
             @Mapping(target = "examPublisherId", expression = "java( examPublisher.getId().toString() )"),
             @Mapping(target = "publisherId", expression = "java( examPublisher.getPublisherId().toString() )"),
-            @Mapping(target = "examDto", source = "exam"),
+            @Mapping(target = "examTypeDto", source = "examType"),
             @Mapping(target = "publisherSeriesDto", source = "publisherSeries"),
+            @Mapping(target = "examTypeId", source = "examType.id"),
     })
     List<ExamPublisherDto> examPublisherToExamPublisherDto(List<ExamPublisher> examPublisher);
 

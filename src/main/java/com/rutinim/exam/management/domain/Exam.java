@@ -8,6 +8,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity(name = "exam")
@@ -37,8 +39,13 @@ public class Exam {
     @UpdateTimestamp
     private Timestamp lastModifitedDate;
 
-    @ManyToOne
-    @JoinColumn(name = "exam_type_id", referencedColumnName = "id")
-    private ExamType examType;
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExamType> examTypes = new ArrayList<>();
+
+    public void addExamType(ExamType examType) {
+        examType.setExam(this);
+        this.examTypes.add(examType);
+    }
 
 }

@@ -7,6 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Getter
@@ -33,6 +34,14 @@ public class ExamTypeDto {
 
     @NotNull
     private List<ExamFieldDto> examFieldsDto;
+
+    @NotNull
+    private Boolean isExamFieldsChanged;
+
+    private ExamDto examDto;
+
+    @NotNull
+    private UUID examId;
 
 
 }
