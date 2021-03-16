@@ -1,5 +1,6 @@
 package com.rutinim.exam.management.web.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -33,6 +34,7 @@ public class ExamTypeDto {
     private Boolean isPreparatoryExam;
 
     @NotNull
+    @JsonProperty("examFields")
     private List<ExamFieldDto> examFieldsDto;
 
     @NotNull

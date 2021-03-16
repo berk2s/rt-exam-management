@@ -81,7 +81,7 @@ public class ExamTypeServiceImpl implements ExamTypeService {
 
     @Override
     public void deleteExamType(UUID examTypeId) {
-        examTypeRepository.delete(examTypeRepository.getOne(examTypeId));
+        examTypeRepository.deleteById(examTypeId);
     }
 
 }

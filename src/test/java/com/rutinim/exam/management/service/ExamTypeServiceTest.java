@@ -217,11 +217,9 @@ class ExamTypeServiceTest {
     @Test
     void testShouldDeletingExamTypeSuccessfully() {
 
-        when(examTypeRepository.getOne(examTypeId)).thenReturn(examType);
-
         examTypeService.deleteExamType(examTypeId);
 
-        verify(examTypeRepository).delete(any());
+        verify(examTypeRepository).deleteById(any());
     }
 
 }
