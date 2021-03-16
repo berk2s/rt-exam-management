@@ -52,9 +52,7 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public void deleteExam(UUID examId) {
-        Exam exam = examRepository.getOne(examId);
-
-        examRepository.delete(exam);
+        examRepository.deleteById(examId);
     }
 
 }

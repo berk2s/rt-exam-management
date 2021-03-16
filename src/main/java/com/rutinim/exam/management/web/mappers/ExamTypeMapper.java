@@ -20,13 +20,15 @@ public interface ExamTypeMapper {
 
     @Mappings({
             @Mapping(target = "examFieldsDto", source = "examFields"),
-            @Mapping(target = "examTypeId", expression = "java( examType.getId().toString() )")
+            @Mapping(target = "examTypeId", expression = "java( examType.getId().toString() )"),
+            @Mapping(target = "examId", source = "examType.id"),
     })
     ExamTypeDto examTypeToExamTypeDto(ExamType examType);
 
     @Mappings({
             @Mapping(target = "examFieldsDto", source = "examFields"),
-            @Mapping(target = "examTypeId", expression = "java( examType.getId().toString() )")
+            @Mapping(target = "examTypeId", expression = "java( examType.getId().toString() )"),
+            @Mapping(target = "examId", source = "examType.id"),
     })
     List<ExamTypeDto> examTypeToExamTypeDto(List<ExamType> examType);
 

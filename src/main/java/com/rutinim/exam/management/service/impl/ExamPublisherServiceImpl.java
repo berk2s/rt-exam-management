@@ -85,8 +85,7 @@ public class ExamPublisherServiceImpl implements ExamPublisherService {
 
     @Override
     public void deleteExamPublisher(UUID examPublisherId) {
-        ExamPublisher examPublisher = examPublisherRepository.getOne(examPublisherId);
-        examPublisherRepository.delete(examPublisher);
+        examPublisherRepository.deleteById(examPublisherId);
     }
 
 }

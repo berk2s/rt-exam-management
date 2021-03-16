@@ -169,12 +169,8 @@ class ExamPublisherServiceTest {
     @DisplayName("Should Delete Exam Publisher Successfully")
     @Test
     void shouldDeleteExamPublisherSuccessfully() {
-        when(examPublisherRepository.getOne(examPublisherId)).thenReturn(examPublisher);
-
         examPublisherService.deleteExamPublisher(examPublisherId);
-
-        verify(examPublisherRepository).getOne(examPublisherId);
-        verify(examPublisherRepository).delete(any());
+        verify(examPublisherRepository).deleteById(any());
     }
 
     @DisplayName("Should Delete Publisher Series Successfully")

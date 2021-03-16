@@ -113,13 +113,8 @@ class ExamServiceTest {
     @DisplayName("Should Delete Exam Successfully")
     @Test
     void testShouldDeleteExamSuccessfully() {
-        when(examRepository.getOne(examId)).thenReturn(exam);
-
         examService.deleteExam(examId);
-
-
-        verify(examRepository).getOne(any());
-        verify(examRepository).delete(any());
+        verify(examRepository).deleteById(any());
     }
 
 }
