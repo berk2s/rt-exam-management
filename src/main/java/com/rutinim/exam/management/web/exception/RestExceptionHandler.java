@@ -82,27 +82,32 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ExamNotFoundException.class)
     protected ResponseEntity<Object> handleStudentNotFoundException(ExamNotFoundException ex) {
-        return generateErrorTemplate(new ErrorTemplate(ex, HttpStatus.NOT_FOUND));
+        return generateErrorTemplate(new ErrorTemplate(ex, HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler(ExamTypeNotFoundException.class)
     protected ResponseEntity<Object> handleExamTypeNotFoundException(ExamTypeNotFoundException ex) {
-        return generateErrorTemplate(new ErrorTemplate(ex, HttpStatus.NOT_FOUND));
+        return generateErrorTemplate(new ErrorTemplate(ex, HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler(ExamFieldNotFoundException.class)
     protected ResponseEntity<Object> handleExamFieldNotFoundException(ExamFieldNotFoundException ex) {
-        return generateErrorTemplate(new ErrorTemplate(ex, HttpStatus.NOT_FOUND));
+        return generateErrorTemplate(new ErrorTemplate(ex, HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler(ExamPublisherNotFoundException.class)
     protected ResponseEntity<Object> handleExamPublisherNotFoundException(ExamPublisherNotFoundException ex) {
-        return generateErrorTemplate(new ErrorTemplate(ex, HttpStatus.NOT_FOUND));
+        return generateErrorTemplate(new ErrorTemplate(ex, HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler(PublisherSeriesNotFoundException.class)
     protected ResponseEntity<Object> handlePublisherSeriesNotFoundException(PublisherSeriesNotFoundException ex) {
-        return generateErrorTemplate(new ErrorTemplate(ex, HttpStatus.NOT_FOUND));
+        return generateErrorTemplate(new ErrorTemplate(ex, HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(LessonNotFoundException.class)
+    protected ResponseEntity<Object> handleLessonNotFoundException(LessonNotFoundException ex) {
+        return generateErrorTemplate(new ErrorTemplate(ex, HttpStatus.BAD_REQUEST));
     }
 
     private ResponseEntity<Object> generateErrorTemplate(ErrorTemplate errorTemplate){

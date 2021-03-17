@@ -3,6 +3,7 @@ package com.rutinim.exam.management.web.model;
 import lombok.*;
 
 import javax.validation.constraints.Null;
+import java.util.UUID;
 
 @Data
 @Getter
@@ -18,5 +19,11 @@ public class ExamFieldDto {
     private String fieldName;
 
     private Integer numberOfQuestions;
+
+    private LessonDto lesson;
+
+    private UUID lessonId;
+
+    private Boolean isChanged;
 
 }

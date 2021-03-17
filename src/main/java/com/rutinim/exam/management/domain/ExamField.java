@@ -38,6 +38,10 @@ public class ExamField {
     @JoinColumn(name = "exam_id", referencedColumnName = "id", nullable = false)
     private ExamType examType;
 
+    @ManyToOne
+    @JoinColumn(name = "lesson_id", referencedColumnName = "id", nullable = false)
+    private Lesson lesson;
+
     @CreationTimestamp
     private Timestamp createdAt;
 

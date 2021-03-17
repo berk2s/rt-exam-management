@@ -1,7 +1,9 @@
 package com.rutinim.exam.management.service.impl;
 
 import com.rutinim.exam.management.domain.ExamField;
+import com.rutinim.exam.management.domain.Lesson;
 import com.rutinim.exam.management.repository.ExamFieldRepository;
+import com.rutinim.exam.management.repository.LessonRepository;
 import com.rutinim.exam.management.service.ExamFieldService;
 import com.rutinim.exam.management.web.exception.ExamTypeNotFoundException;
 import com.rutinim.exam.management.web.mappers.ExamFieldMapper;
@@ -17,6 +19,7 @@ import java.util.UUID;
 public class ExamFieldServiceImpl implements ExamFieldService {
 
     private final ExamFieldRepository examFieldRepository;
+    private final LessonRepository lessonRepository;
     private final ExamFieldMapper examFieldMapper;
 
     @Override
@@ -35,6 +38,11 @@ public class ExamFieldServiceImpl implements ExamFieldService {
 
         examField.setFieldName(examFieldDto.getFieldName());
         examField.setNumberOfQuestions(examFieldDto.getNumberOfQuestions());
+
+        if (examFieldDto.getIsChanged()) {
+            Lesson lesson = lessonRepository.getOne(examFieldDto.getLessonId());
+            examField.setLesson(lesson);
+        }
 
         examFieldRepository.save(examField);
     }

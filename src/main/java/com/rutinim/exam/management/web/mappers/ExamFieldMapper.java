@@ -15,14 +15,16 @@ public interface ExamFieldMapper {
 
     ExamField examFieldDtoToExamField(ExamFieldDto examFieldDto);
 
-    @Mappings(
-            @Mapping(target = "examFieldId", expression = "java( examField.getId().toString() )")
-    )
+    @Mappings({
+            @Mapping(target = "examFieldId", expression = "java( examField.getId().toString() )"),
+            @Mapping(target = "lessonId", source = "lesson.id")
+    })
     ExamFieldDto examFieldToExamFieldDto(ExamField examField);
 
-    @Mappings(
-            @Mapping(target = "examFieldId", expression = "java( examField.getId().toString() )")
-    )
+    @Mappings({
+            @Mapping(target = "examFieldId", expression = "java( examField.getId().toString() )"),
+            @Mapping(target = "lessonId", source = "lesson.id")
+    })
     List<ExamFieldDto> examFieldToExamFieldDto(List<ExamField> examField);
 
 }
