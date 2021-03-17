@@ -1,5 +1,6 @@
 package com.rutinim.exam.management.web.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -31,8 +32,10 @@ public class ExamPublisherDto {
     @NotBlank
     private String examImage;
 
+    @JsonProperty("examType")
     private ExamTypeDto examTypeDto;
 
+    @JsonProperty("publisherSeries")
     private List<PublisherSeriesDto> publisherSeriesDto;
 
     @NotNull

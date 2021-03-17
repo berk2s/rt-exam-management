@@ -82,7 +82,7 @@ class ExamFieldControllerTest {
     void whenGetExamField_thenReturns200() throws Exception {
         given(examFieldService.getExamField(examFieldId)).willReturn(examFieldDto);
 
-        mockMvc.perform(get("/examfield/" + examFieldId.toString()))
+        mockMvc.perform(get("/exam/field/" + examFieldId.toString()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.examFieldId", is(examFieldId.toString())))
@@ -105,7 +105,7 @@ class ExamFieldControllerTest {
     void whenUpdateExamField_thenReturns206() throws Exception {
 
         examFieldDto.setExamFieldId(null);
-        mockMvc.perform(put("/examfield/" + examFieldId.toString())
+        mockMvc.perform(put("/exam/field/" + examFieldId.toString())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(examFieldDto)))
                 .andExpect(status().isNoContent());
