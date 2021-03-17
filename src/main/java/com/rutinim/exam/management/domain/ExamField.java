@@ -34,7 +34,7 @@ public class ExamField {
     @Column(name = "number_of_questions")
     private Integer numberOfQuestions;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exam_id", referencedColumnName = "id", nullable = false)
     private ExamType examType;
 

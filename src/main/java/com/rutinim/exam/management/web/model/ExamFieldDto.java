@@ -22,6 +22,8 @@ public class ExamFieldDto {
 
     private LessonDto lesson;
 
+    private ExamTypeDto examType;
+
     private UUID lessonId;
 
     private Boolean isChanged;

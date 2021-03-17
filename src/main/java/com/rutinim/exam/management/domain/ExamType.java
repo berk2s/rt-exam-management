@@ -49,7 +49,7 @@ public class ExamType {
     private Timestamp lastModifitedDate;
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "examType", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "examType", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExamField> examFields = new ArrayList<>();
 
     @ManyToOne()
