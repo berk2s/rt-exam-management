@@ -76,7 +76,7 @@ class ExamTypeControllerTest {
     void whenListExamTypes_thenReturns200() throws Exception {
         given(examTypeService.listExamTypes()).willReturn(Collections.singletonList(examTypeDto));
 
-        mockMvc.perform(get("/examtype"))
+        mockMvc.perform(get("/exam/type"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.length()", is(1)))
@@ -100,7 +100,7 @@ class ExamTypeControllerTest {
     void whenGetExamType_thenReturns200() throws Exception {
         given(examTypeService.getExamType(examTypeId)).willReturn(examTypeDto);
 
-        mockMvc.perform(get("/examtype/" + examTypeId.toString()))
+        mockMvc.perform(get("/exam/type/" + examTypeId.toString()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.examTypeId", is(examTypeId.toString())))
@@ -124,7 +124,7 @@ class ExamTypeControllerTest {
 
         examTypeDto.setExamTypeId(null);
 
-        mockMvc.perform(post("/examtype")
+        mockMvc.perform(post("/exam/type")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(examTypeDto)))
                 .andExpect(status().isCreated());
@@ -138,7 +138,7 @@ class ExamTypeControllerTest {
 
         examTypeDto.setExamTypeId(null);
 
-        mockMvc.perform(put("/examtype/" + examTypeId.toString())
+        mockMvc.perform(put("/exam/type/" + examTypeId.toString())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(examTypeDto)))
                 .andExpect(status().isNoContent());
@@ -152,7 +152,7 @@ class ExamTypeControllerTest {
 
         examTypeDto.setExamTypeId(null);
 
-        mockMvc.perform(post("/examtype/" + examTypeId.toString() + "/field")
+        mockMvc.perform(post("/exam/type/" + examTypeId.toString() + "/field")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(examTypeDto)))
                 .andExpect(status().isCreated());
@@ -164,7 +164,7 @@ class ExamTypeControllerTest {
     @Test
     void whenDeletingExamType_thenReturns200() throws Exception {
 
-        mockMvc.perform(delete("/examtype/" + examTypeId.toString())
+        mockMvc.perform(delete("/exam/type/" + examTypeId.toString())
                     .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 

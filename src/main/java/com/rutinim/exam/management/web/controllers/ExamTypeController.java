@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/examtype")
+@RequestMapping("/exam/type")
 public class ExamTypeController {
 
     private final ExamTypeService examTypeService;

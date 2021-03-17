@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/examfield/{examFieldId}")
+@RequestMapping("/exam/field/{examFieldId}")
 public class ExamFieldController {
 
     private final ExamFieldService examFieldService;
